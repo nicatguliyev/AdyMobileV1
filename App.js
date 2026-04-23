@@ -1,12 +1,5 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- */
-
 import { NewAppScreen } from '@react-native/new-app-screen';
-import { StatusBar, StyleSheet, useColorScheme, View } from 'react-native';
+import { StatusBar, StyleSheet, useColorScheme, View, Text } from 'react-native';
 import {
   SafeAreaProvider,
   useSafeAreaInsets,
@@ -17,8 +10,16 @@ function App() {
 
   return (
     <SafeAreaProvider>
-      <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
-      <AppContent />
+      <View style={{ flex: 1, backgroundColor: "grey", alignItems: "center", justifyContent: "center" }}>
+
+         <Text>
+
+          WELCOME TO REACT NATIVE
+
+        </Text>
+
+      </View>
+  
     </SafeAreaProvider>
   );
 }
