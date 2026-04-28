@@ -91,7 +91,7 @@ class User {
     register(data) {
         return $axios.post(api.register, data)
             .then(json => {
-                return json.data;
+                return json.data;  
             })
             .catch(error => {
                 return error.response.data;
@@ -220,5 +220,209 @@ class User {
                 }
             })
     }
+
+    update(data) {
+        return $axios
+            .post(api.update_profile, data, {
+                headers: {
+                    Authorization: 'Bearer ' + this.getToken(),
+                },
+            })
+            .then(json => {
+                if (!json.data.error) {
+                    this.setUserInfo(json.data.data);
+                }
+                return json.data;
+            });
+    }
+
+    reSendCode(email) {
+        return $axios.post(api.send_verify_code, { email: email }).then(json => {
+            return json.data;
+        });
+    }
+
+    updatePassword(payload) {
+    return $axios
+      .post(api.update_password, payload, {
+        headers: {
+          Authorization: 'Bearer ' + this.getToken(),
+        },
+      })
+      .then(json => {
+        return json.data;
+      });
+  }
+
+  async logout() {
+    const token = await getMessaging().getToken();
+    await getMessaging().unsubscribeFromTopic('campaigns');
+    await getMessaging().unsubscribeFromTopic('internal');
+    await getMessaging().unsubscribeFromTopic('local');
+    await getMessaging().unsubscribeFromTopic('all');
+
+    AsyncStorage.removeItem('@isTripHistoryChecked');
+
+    return $axios
+      .post(
+        api.logout,
+        { token: token },
+        {
+          headers: {
+            Authorization: 'Bearer ' + this.getToken(),
+          },
+        },
+      )
+      .then(async json => {
+        if (!json.data.error) {
+          this.setUserInfo({});
+          this.setToken('');
+          await EncryptedDataStore.set('badgeCount', '0');
+          setBadgeCount(0);
+          try {
+            AsyncStorage.removeItem('@user_token');
+            AsyncStorage.removeItem('@user_fin');
+          } catch (e) {
+            console.error('error when removing user token from storage' + e);
+          }
+        }
+        else{
+
+        }
+        return json.data;
+      });
+  }
+
+   destroy() {
+    return $axios
+      .post(
+        api.destroy,
+        {},
+        {
+          headers: {
+            Authorization: 'Bearer ' + this.getToken(),
+          },
+        },
+      )
+      .then(json => {
+        if (!json.data.error) {
+          this.setUserInfo({});
+          this.setToken('');
+          try {
+            AsyncStorage.removeItem('@user_token');
+          } catch (e) {
+            console.error('error when removing user token from storage' + e);
+          }
+        }
+        else {
+          
+        }
+        return json.data;
+      });
+  }
+
+
+  removePassenger(id) {
+    return $axios
+      .post(
+        api.remove_passenger,
+        { id: id },
+        {
+          headers: {
+            Authorization: 'Bearer ' + this.getToken(),
+          },
+        },
+      )
+      .then(json => {
+        return json.data;
+      });
+  }
+
+  savePassenger(passenger) {
+    return $axios
+      .post(api.save_passenger, passenger, {
+        headers: {
+          Authorization: 'Bearer ' + this.getToken(),
+        },
+      })
+      .then(response => {
+        return response.data;
+      });
+  }
+
+   async registerSima(data) {
+    return $axios
+      .post(api.sima_register, data, {
+        headers: {
+          Authorization: 'Bearer ' + this.getToken(),
+          'Content-Type': 'multipart/form-data',
+        },
+      })
+      .then(json => {
+        if (!json.data.error) {
+          this.setUserInfo({
+            ...this.getUserInfo(),
+            is_sima_enabled: true,
+            sima_pay_id: true,
+          });
+        }
+        return json.data;
+      });
+  }
+
+  async deleteSima() {
+    return $axios
+      .delete(api.delete_sima, {
+        headers: {
+          Authorization: 'Bearer ' + this.getToken(),
+        },
+      })
+      .then(json => {
+        if (!json.data.error) {
+          this.setUserInfo({
+            ...this.getUserInfo(),
+            is_sima_enabled: false,
+            sima_pay_id: false,
+          });
+        }
+        return json.data;
+      });
+  }
+
+  async changeSimaStatus(status) {
+    return $axios
+      .post(
+        api.enable_sima,
+        { enableSima: status },
+        {
+          headers: {
+            Authorization: 'Bearer ' + this.getToken(),
+          },
+        },
+      )
+      .then(json => {
+        if (!json.data.error) {
+          this.setUserInfo({
+            ...this.getUserInfo(),
+            is_sima_enabled: status ? true : false,
+          });
+        }
+        return json.data;
+      });
+  }
+
+
+    updateUserInfoPhone(payload) {
+    const newUserInfo = { ...this.getUserInfo() };
+    newUserInfo.phone = payload.phone;
+    newUserInfo.prefix = payload.prefix;
+    this.setUserInfo(newUserInfo);
+  }
 }
+
+const userStore = new User();
+export const userContext = React.createContext(userStore);
+export const useUserStore = () => React.useContext(userContext);
+
+export default new User();
 

@@ -13,9 +13,7 @@ function App() {
       <View style={{ flex: 1, backgroundColor: "grey", alignItems: "center", justifyContent: "center" }}>
 
          <Text>
-
           WELCOME TO REACT NATIVE
-
         </Text>
 
       </View>
@@ -33,7 +31,7 @@ function AppContent() {
         templateFileName="App.tsx"
         safeAreaInsets={safeAreaInsets}
       />
-    </View>
+    </View>  
   );
 }
 
