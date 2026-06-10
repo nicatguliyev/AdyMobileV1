@@ -203,8 +203,8 @@ class Ady {
             from_station: 0,
             to_input: '',
             to_station: 0,
-            departureDate: moment.startOf('day'),
-            returnDate: moment.startOf('day').add(1, 'days'),
+            departureDate: moment().startOf('day'),
+            returnDate: moment().startOf('day').add(1, 'days'),
             two_way: false,
             accept_rules: false,
             to_trip_train_index: -1,
@@ -278,8 +278,8 @@ class Ady {
     // Bu tarixdə bu şəxs artıq bilet alıbmı?
     // Uşaq yaşı tarixlə uyğundurmu?
 
-    validatePassengerData(
-        passengrs_data,
+    validatePassengersData(
+        passengers_data,
         trip_data,
         token
     ) {
@@ -300,7 +300,7 @@ class Ady {
             },
         ).then(
             response => {
-                response.data;
+              return  response.data;
             }
         )
     }
@@ -489,7 +489,7 @@ class Ady {
                                     free_seats_count += w.free_seats_count;
                                     w.wagon_type_id = Number(wagon_type_id);
                                     w.seat_class_id = Number(seat_class_id);
-                                    w.trip_id = train_trip_id
+                                    w.trip_id = train.trip_id
                                 }
                             );
                             train_wagon.free_seats_count = free_seats_count;
@@ -545,6 +545,11 @@ class Ady {
         });
     }
 }
+
+const adyStore = new Ady();
+// Create a React Context with the counter store instance.
+export const AdyContext = React.createContext(adyStore);
+export const useAdyStore = () => React.useContext(AdyContext);
 
 
 

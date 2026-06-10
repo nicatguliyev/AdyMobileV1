@@ -1,0 +1,81 @@
+{
+  "migIndex": 1,
+  "data": [
+    {
+      "path": "assets/fonts/EuclidCircularA-Bold.otf",
+      "sha1": "3209badfc2811a7a116224e7632180e5990fd729"
+    },
+    {
+      "path": "assets/fonts/EuclidCircularA-BoldItalic.otf",
+      "sha1": "a0efbfe30f193600e59e5b90b6ee4101e0635b20"
+    },
+    {
+      "path": "assets/fonts/EuclidCircularA-Italic.otf",
+      "sha1": "77c58d44cde75d60def1909d92c3e113d8d059af"
+    },
+    {
+      "path": "assets/fonts/EuclidCircularA-Light.otf",
+      "sha1": "284419b54abe99dfe4b034f15577d43422ce2be6"
+    },
+    {
+      "path": "assets/fonts/EuclidCircularA-LightItalic.otf",
+      "sha1": "345586104c3ad294888957b14c0f9d3cd88dbb60"
+    },
+    {
+      "path": "assets/fonts/EuclidCircularA-Medium.otf",
+      "sha1": "3a313cb8dbbc97e90d57c039d2d58808c602bf67"
+    },
+    {
+      "path": "assets/fonts/EuclidCircularA-MediumItalic.otf",
+      "sha1": "a43679ba6aa57aa4e86593373ca9714f44b7daa3"
+    },
+    {
+      "path": "assets/fonts/EuclidCircularA-Regular.otf",
+      "sha1": "9c431a74ecc3ed3e7df87d4c1c65411cface572d"
+    },
+    {
+      "path": "assets/fonts/EuclidCircularA-SemiBold.otf",
+      "sha1": "e65e89d2e27d999322e12026eea4a30f0342e243"
+    },
+    {
+      "path": "assets/fonts/EuclidCircularA-SemiBoldItalic.otf",
+      "sha1": "c0f995b2de23bcf05ed35ff64f0706c42bbe8191"
+    },
+    {
+      "path": "assets/fonts/Inter-Black.ttf",
+      "sha1": "f79fa58ace5f55e338c99bf71e7e0702841df6f2"
+    },
+    {
+      "path": "assets/fonts/Inter-Bold.ttf",
+      "sha1": "47ff07c75746682133b81e7ac0537ce50a4c9916"
+    },
+    {
+      "path": "assets/fonts/Inter-ExtraBold.ttf",
+      "sha1": "c9b3d2f2449ab2c67ff075f806973fa3d7e104b3"
+    },
+    {
+      "path": "assets/fonts/Inter-ExtraLight.ttf",
+      "sha1": "f78ee1d6cbfc64f656247c604ef270ef116abbf5"
+    },
+    {
+      "path": "assets/fonts/Inter-Light.ttf",
+      "sha1": "cbb2506d8da21edbb2dc8cfa26e3b42a97d138f8"
+    },
+    {
+      "path": "assets/fonts/Inter-Medium.ttf",
+      "sha1": "e76f580811e031813e7150131a0724811cdd737a"
+    },
+    {
+      "path": "assets/fonts/Inter-Regular.ttf",
+      "sha1": "cfa780d0b50b2bb7eacb82984f1b18a95aaa40c5"
+    },
+    {
+      "path": "assets/fonts/Inter-SemiBold.ttf",
+      "sha1": "5e0c44e57e7e090252d79f622899e67585bb892c"
+    },
+    {
+      "path": "assets/fonts/Inter-Thin.ttf",
+      "sha1": "757805e615c974756646e54ceff8e409d5c47207"
+    }
+  ]
+}
