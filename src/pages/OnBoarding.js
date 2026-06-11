@@ -41,7 +41,6 @@ const OnBoarding = ({ navigation }) => {
         );
     }
 
-
     const data = [
         {
             image: <OnBoardOne width={width} />,
