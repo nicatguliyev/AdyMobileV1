@@ -29,6 +29,7 @@ import NoItem from './src/components/UI/NoItem';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import FlashMessage from 'react-native-flash-message';
 import JailMonkey from 'jail-monkey';
+import EmulatorIcon from './assets/icons/emulator.svg';
 
 
 const width = Dimensions.get('window').width;
@@ -50,7 +51,7 @@ const App = () => {
   const [appState, setAppState] = useState(currentAppState.current);
   const [isMounted, setIsMounted] = useState(true);
 
- // const ady = useAdyStore();
+  // const ady = useAdyStore();
 
   useEffect(() => {
     (async () => {
@@ -262,10 +263,191 @@ const App = () => {
 
     await RNBootSplash.hide();
     setLoaded(true);
+  };
+
+  const ady = useAdyStore();
+
+  const linking = {
+    prefixes: ['https://test-ticket.ady.az', '*test-ticket.ady.az'],
+    config: {
+      screens: {},
+    },
+    subscribe(listener) {
+      const onReceiveURL = async ({ url }) => {
+        console.log('url', url);
+        const token = await EncryptedDataStore.get('@user_token');
+
+        if (token) {
+          if (url.includes('fiziki-kart-balans-artimi')) {
+            const cartInfo = await EncryptedDataStore.get('@myCart');
+            const cart = JSON.parse(cartInfo);
+
+            const serial = cart.serial;
+            const balance = cart.balance;
+
+            RootNavigation.navigate('AddCartBalance', {
+              serial: serial,
+              balance: balance,
+            });
+          } else if (url.includes('hereket-cedveli')) {
+            RootNavigation.navigate({
+              name: 'HomeTabs', // Name of the route to navigate to
+              params: {
+                screen: 'Tablo', // Optional route parameters
+              },
+            });
+          } else if (url.includes('ticket-search')) {
+            if (url.includes('type=local')) {
+              ady.setTicketType('standart');
+              RootNavigation.navigate({
+                name: 'HomeTabs', // Name of the route to navigate to
+                params: {
+                  screen: 'HomePage',
+                  params: {
+                    screen: 'TicketSearch',
+                  },
+                },
+              });
+            } else {
+              ady.setTicketType('');
+              RootNavigation.navigate({
+                name: 'HomeTabs', // Name of the route to navigate to
+                params: {
+                  screen: 'HomePage',
+                  params: {
+                    screen: 'TicketSearch',
+                  },
+                },
+              });
+            }
+          }
+        }
+      };
+
+      // Listen to incoming links from deep linking
+      const subscription = Linking.addEventListener('url', onReceiveURL);
+
+      return () => {
+        // Clean up the event listeners
+        subscription.remove();
+      };
+    },
+  };
+
+
+  if (isEmulator && !__DEV__) {
+    return (
+      <NoItem
+        iconItem={<EmulatorIcon width={90} height={90} />}
+        text={'Emulator detected'}
+      />
+    );
   }
 
+  if (isVerifyDeviceRoot && !__DEV__) {
+    return (
+      <NoItem
+        iconItem={<EmulatorIcon width={90} height={90} />}
+        text={'Emulator Rooted'}
+      />
+    );
+  }
 
-}
+  if (firstTimeNotServices) {
+    return (
+      <NoItem
+        iconItem={<NotServicesIcon width={50} height={50} />}
+        text={getDeviceLang()}
+      />
+    );
+  } else {
+    return (
+      <SafeAreaProvider>
+        <GestureHandlerRootView style={{ flex: 1 }}>
+          <Provider user={user}>
+            {loaded ? (
+              <NavigationContainer
+                linking={linking}
+                ref={RootNavigation.navigationRef}
+              >
+                <Main initialRoute={route_name} />
+              </NavigationContainer>
+            ) : null}
+            <FlashMessage />
+          </Provider>
+        </GestureHandlerRootView>
+      </SafeAreaProvider>
+    );
+  }
+};
+
+export default App;
+
+
+const style = StyleSheet.create({
+  modal: {
+    width: width,
+    height: height,
+    backgroundColor: '#F2F2F2',
+  },
+  mainContainer: {
+    width: width,
+    height: height,
+    backgroundColor: '#ffffff',
+    justifyContent: 'center',
+  },
+  alert: {
+    alignContent: 'center',
+    justifyContent: 'center',
+    textAlign: 'center',
+  },
+  iconContainer: {
+    width: width,
+    alignContent: 'center',
+    justifyContent: 'center',
+    textAlign: 'center',
+  },
+  icon: {
+    width: 78,
+    height: 78,
+    marginBottom: 50,
+    marginLeft: (width - 78) / 2,
+  },
+  title: {
+    fontFamily: 'EuclidCircularA-Bold',
+    fontSize: 24,
+    fontWeight: '600',
+    textAlign: 'center',
+    color: '#282828',
+    marginBottom: 20,
+  },
+  subTitle: {
+    fontFamily: 'EuclidCircularA-Regular',
+    fontSize: 14,
+    color: '#726f6f',
+    textAlign: 'center',
+    fontWeight: '400',
+  },
+  button: {
+    width: width,
+    marginTop: 25,
+    height: 25,
+    alignItems: 'center',
+  },
+  buttonText: {
+    fontFamily: 'EuclidCircularA-Regular',
+    fontSize: 17,
+    color: '#007BF6',
+  },
+  alertTextContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  alertText: { color: 'red', fontSize: 16 },
+});
+
+
 
 
 

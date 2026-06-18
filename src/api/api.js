@@ -1,5 +1,5 @@
 import axios from 'axios';
-import strings from '../localization/strings';
+import strings from '../localization/Localizations';
 import NetInfo from '@react-native-community/netinfo';
 import { changeNetworkStatus } from '../services/explorer.service';
 import DeviceInfo from 'react-native-device-info';

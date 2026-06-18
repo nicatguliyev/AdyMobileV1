@@ -11,6 +11,14 @@
       android:theme="@style/AppTheme"
       android:usesCleartextTraffic="${usesCleartextTraffic}"
       android:supportsRtl="true">
+
+      <meta-data
+       android:name="com.facebook.sdk.ApplicationId"
+       android:value="@string/facebook_app_id" />
+      <meta-data
+       android:name="com.facebook.sdk.ClientToken"
+       android:value="4b3d27086eecebb8271c3307e906fd0e" />
+
       <activity
         android:name=".MainActivity"
         android:label="@string/app_name"
