@@ -30,6 +30,7 @@ import { SafeAreaProvider } from 'react-native-safe-area-context';
 import FlashMessage from 'react-native-flash-message';
 import JailMonkey from 'jail-monkey';
 import EmulatorIcon from './assets/icons/emulator.svg';
+import { Settings } from 'react-native-fbsdk-next'; // <-- İMPORTU BURAYA DAŞIDIQ
 
 
 const width = Dimensions.get('window').width;
@@ -42,7 +43,7 @@ if (__DEV__) {
 const App = () => {
   const [isVerifyDeviceRoot, setIsVerifyDeviceRoot] = useState(false);
   const [isEmulator, setIsEmulator] = useState(false);
-  const [loaded, setLoaded] = useState(false);
+  const [loaded, setLoaded] = useState(true);
   const [route_name, setRouteName] = useState('OnBoarding');
   const [translateFile, setTranslateFile] = useState({});
   const [isNetworkOnline, setIsNetworkOnline] = useState(false);
@@ -54,6 +55,15 @@ const App = () => {
   // const ady = useAdyStore();
 
   useEffect(() => {
+
+     
+   try {
+      Settings.initializeSDK();
+      console.log("QƏLƏBƏ! Facebook SDK mühit hazır olandan sonra ayağa qalxdı!");
+    } catch (error) {
+      console.error("Facebook SDK xətası:", error);
+    }
+
     (async () => {
       const emulatorStatus = await DeviceInfo.isEmulator();
       setIsEmulator(emulatorStatus);
@@ -446,6 +456,17 @@ const style = StyleSheet.create({
   },
   alertText: { color: 'red', fontSize: 16 },
 });
+
+
+
+
+
+
+
+
+
+
+
 
 
 
